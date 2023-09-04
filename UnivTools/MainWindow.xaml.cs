@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UnivTools.UI.UserControls;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace UnivTools
@@ -23,6 +24,8 @@ namespace UnivTools
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<LvItem> lvItems = new List<LvItem>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,16 +33,97 @@ namespace UnivTools
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
-            try
-            {
-                pdfViewer.Document = PdfDocument.Load(@"d:\test.pdf");
-            }
-            catch (Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            InitListView();
+        }
 
+        private void toggleBtnMenu_Unchecked(object sender, RoutedEventArgs e)
+        {
+            gridContentAbove.Visibility = Visibility.Collapsed;
+
+            RefreshUI();
+        }
+
+        private void toggleBtnMenu_Checked(object sender, RoutedEventArgs e)
+        {
+            gridContentAbove.Visibility = Visibility.Visible;
+
+            RefreshUI();
+        }
+
+        private void gridContentAbove_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            toggleBtnMenu.IsChecked = false;
+        }
+
+        private void lvPanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            gridContent.Children.Clear();
+
+            if (lvPanel.SelectedItem == null)
+                return;
+
+            var item = lvPanel.SelectedItem as LvItem;
+            if (item != null)
+            {
+                gridContent.Children.Clear();
+                gridContent.Children.Add(item.panel);
+            }
+        }
+
+        private void InitListView()
+        {
+            lvPanel.Items.Clear();
+
+            // pdf 
+            {
+                LvItem lvItemPdf = new LvItem();
+                lvItemPdf.img = new BitmapImage(new Uri("pack://application:,,,/Assets/image/pdf.png"));
+                lvItemPdf.name = "PDF文档";
+                lvItemPdf.panel = new UserControl_Pdf(this);
+
+                (lvItemPdf.panel as UserControlInterfaces).HideControls(false);
+
+                lvPanel.Items.Add(lvItemPdf);
+            }
+            
+
+            // setting
+            {
+                LvItem lvItemSetting = new LvItem();
+                lvItemSetting.img = new BitmapImage(new Uri("pack://application:,,,/Assets/image/setting.png"));
+                lvItemSetting.name = "设置";
+                lvItemSetting.panel = new UserControl_ABout();
+
+                (lvItemSetting.panel as UserControlInterfaces).HideControls(false);
+
+                lvPanel.Items.Add(lvItemSetting);
+            }
+        }
+
+        private void RefreshUI()
+        {
+            if (toggleBtnMenu.IsChecked == true)
+            {
+                gridContentAbove.Visibility = Visibility.Visible;
+
+                foreach (var item in lvPanel.Items)
+                {
+                    var _item = item as LvItem;
+
+                    (_item.panel as UserControlInterfaces).HideControls(true);
+                }
+            }
+            else
+            {
+                gridContentAbove.Visibility = Visibility.Collapsed;
+
+                foreach (var item in lvPanel.Items)
+                {
+                    var _item = item as LvItem;
+
+                    (_item.panel as UserControlInterfaces).HideControls(false);
+                }
+            }
         }
     }
 }

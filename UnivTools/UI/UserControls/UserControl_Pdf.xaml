@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="UnivTools.UI.UserControls.UserControl_Pdf"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UnivTools.UI.UserControls"
+             xmlns:PDFViewer="clr-namespace:PdfiumViewer;assembly=PdfiumViewer"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="UserControl_Loaded">
+    <Grid x:Name="gridRoot" Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="gridToolbar" Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                
+                <Button Content="打开" Name="btnOpen" VerticalAlignment="Center" Click="btnOpen_Click" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
+                
+                <TextBlock Text="|" VerticalAlignment="Center" Foreground="White" FontSize="22" Margin="2"/>
+                
+                <TextBlock Text="Page:" VerticalAlignment="Center" Foreground="White" />
+                <TextBox Text="" x:Name="txtCurPage" VerticalAlignment="Center" Width="30" TextInput="txtCurPage_TextInput" KeyDown="txtCurPage_KeyDown" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
+                <TextBlock Text="/1000" x:Name="txtTotlePages" VerticalAlignment="Center" Width="35" Foreground="White" />
+                
+                <Button Content="&lt;" Name="btnPre" VerticalAlignment="Center" Click="btnPre_Click" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
+                <Button Content="&gt;" Name="btnNext" VerticalAlignment="Center" Click="btnNext_Click" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
+
+                <TextBlock Text="|" VerticalAlignment="Center" Foreground="White" FontSize="22" Margin="2"/>
+
+                <TextBlock Text="Zoom:" VerticalAlignment="Center" Foreground="White" />
+                <TextBox Text="" x:Name="txtCurZoom" VerticalAlignment="Center" Width="30" KeyDown="txtCurZoom_KeyDown" Foreground="White" IsReadOnly="True" Background="Transparent" BorderBrush="Transparent" />
+                <Button Content="+" Name="btnZoomIn" VerticalAlignment="Center" Click="btnZoomIn_Click"  Foreground="White" Background="Transparent" BorderBrush="Transparent" />
+                <Button Content="-" Name="btnZoomOut" VerticalAlignment="Center" Click="btnZoomOut_Click"  Foreground="White" Background="Transparent" BorderBrush="Transparent" />
+
+                <TextBlock Text="|" VerticalAlignment="Center" Foreground="White" FontSize="22" Margin="2"/>
+
+                <Button Content="FitWidth" Name="btnFitWidth" VerticalAlignment="Center" Click="btnFitWidth_Click" Foreground="White" Background="Transparent"  />
+                <Button Content="FitHeight" Name="btnFitHeight" VerticalAlignment="Center" Click="btnFitHeight_Click" Foreground="White" Background="Transparent" />
+                <Button Content="FitBest" Name="btnFitBest" VerticalAlignment="Center" Click="btnFitBest_Click" Foreground="White" Background="Transparent"  />
+
+                <TextBlock Text="|" VerticalAlignment="Center" Foreground="White" FontSize="22" Margin="2"/>
+
+                <Button Content="RatateLeft" Name="btnRotateLeft" VerticalAlignment="Center" Click="btnRotateLeft_Click" Foreground="White" Background="Transparent"  />
+                <Button Content="RatateRight" Name="btnRotateRight" VerticalAlignment="Center" Click="btnRotateRight_Click" Foreground="White" Background="Transparent"/>
+                
+                <TextBlock Text="|" VerticalAlignment="Center" Foreground="White" FontSize="22" Margin="2"/>
+
+                <Button Content="GetText" Name="btnGetText" VerticalAlignment="Center" Click="btnGetText_Click" Foreground="White" Background="Transparent"  />
+                <Button Content="导出图片" Name="btnToImage" VerticalAlignment="Center" Click="btnToImage_Click" Foreground="White" Background="Transparent"/>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="gridPdf" Grid.Row="1">
+            <Grid>
+                <TextBlock Text="PDF..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Foreground="White"/>
+            </Grid>
+            
+            <WindowsFormsHost x:Name="pdfForm" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Visible" Background="Black"
+                          Width="{Binding Path=ActualWidth, ElementName=gridPdf}" Height="{Binding Path=ActualHeight, ElementName=gridPdf}"  >
+                <PDFViewer:PdfViewer x:Name="pdfViewer" ShowToolbar="False"/>
+            </WindowsFormsHost>
+        </Grid>
+       
+    </Grid>
+</UserControl>

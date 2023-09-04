@@ -7,33 +7,271 @@
         xmlns:WinFormHost="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         xmlns:WinFormControls="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:PDFViewer="clr-namespace:PdfiumViewer;assembly=PdfiumViewer"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    <Grid Background="AliceBlue">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        Title="MainWindow" Height="720" Width="1280" Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <Window.Resources>
 
-        <Grid x:Name="gridPdf" Grid.Row="1" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="32" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <!--// Toggle Button Style Template //-->
 
-            <Grid x:Name="gridPdfViewer" Grid.Row="1">
-                <WindowsFormsHost x:Name="pdfForm" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding Path=ActualWidth, ElementName=gridPdfViewer}" Height="{Binding Path=ActualHeight, ElementName=gridPdfViewer}"  >
-                    <PDFViewer:PdfViewer x:Name="pdfViewer" ShowToolbar="True"/>
-                </WindowsFormsHost>
+        <ImageBrush x:Key="tb_mouse_over"
+                    ImageSource="/Assets/image/menu_over.png"/>
+
+        <!--// Text font style //-->
+
+        <Style x:Key="font_style" TargetType="TextBlock">
+            <Setter Property="FontFamily"
+                    Value="/Assets/Fonts/Roboto-Light.ttf #Roboto"/>
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Left"/>
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+
+            <Setter Property="FontSize"
+                    Value="16"/>
+        </Style>
+
+        <!--// Tooltip Style Template //-->
+
+        <Style TargetType="ToolTip" x:Key="tt_style">
+
+            <Setter Property="Placement" Value="Right"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="20,0,0,0"/>
+            <Setter Property="Background" Value="#4A5668"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="/Assets/Fonts/Roboto-Light.ttf #Roboto"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="PlacementRectangle" Value="60,0,0,0"/>
+            <Setter Property="HorizontalOffset" Value="15"/>
+            <Setter Property="VerticalOffset" Value="6"/>
+            <Setter Property="HasDropShadow" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+        </Style>
+
+
+        <Style x:Key="tb_style" TargetType="{x:Type ToggleButton}">
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border  x:Name="border"
+                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                 Background="{TemplateBinding Background}"
+                                 SnapsToDevicePixels="True">
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    
+    <Grid Background="Black">
+        <!-- background -->
+        <Grid x:Name="gridBG">
+            <Grid.Background>
+                <ImageBrush x:Name="imgBG" ImageSource="/Assets/image/background.jpg" Stretch="Fill" />
+            </Grid.Background>
+        </Grid>
+
+        <Grid x:Name="gridMain">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="65" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="gridContentAbove" Grid.Column="1" Background="Black" Opacity="0.3" PreviewMouseDown="gridContentAbove_PreviewMouseDown" Visibility="Collapsed" />
+
+
+            <Grid x:Name="gridContent" Grid.Column="1">
+
             </Grid>
+
+            
+
+            <Grid x:Name="gridNav" Grid.Column="0" Grid.ColumnSpan="2" Width="65" HorizontalAlignment="Left">
+                <Grid x:Name="gridNavBG" Background="#2E333A"  Opacity="0.6" Width="{Binding ElementName=gridNav, Path=ActualWidth, Mode=OneWay}" />
+
+                <StackPanel x:Name="stackPanel">
+                    
+                    <Grid Height="90">
+                        <TextBlock  Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="70,-20,0,0"
+                                    Text="MENU"
+                                    Foreground="White"
+                                    FontSize="18"
+                                    Background="Transparent"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource font_style}">
+                            <TextBlock.Effect>
+                                <DropShadowEffect  BlurRadius="10"
+                                                   ShadowDepth="1"
+                                                   Direction="-90"
+                                                   Color="White"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+
+                        <ToggleButton x:Name="toggleBtnMenu"
+                                      Grid.Column="0"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"
+                                      Margin="18,-20,0,0"
+                                      Height="30"
+                                      Width="30"
+                                      BorderThickness="0"
+                                      Style="{StaticResource tb_style}" Unchecked="toggleBtnMenu_Unchecked" Checked="toggleBtnMenu_Checked">
+
+                            <!--// Toggle button default background image //-->
+
+                            <ToggleButton.Background>
+                                <ImageBrush ImageSource="/Assets/image/menu.png" Stretch="None"/>
+                            </ToggleButton.Background>
+
+                            <!--// Toggle Button - Checked, Unchecked events //-->
+                            <ToggleButton.Triggers>
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard x:Name="HideStackPanel">
+                                            <DoubleAnimation    
+                                                Storyboard.TargetName="gridNav"
+                                                Storyboard.TargetProperty="Width"
+                                                BeginTime="0:0:0"
+                                                From="230" To="65"
+                                                Duration="0:0:0.2">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard x:Name="ShowStackPanel">
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="gridNav"
+                                                Storyboard.TargetProperty="Width"
+                                                BeginTime="0:0:0"
+                                                From="65" To="230"
+                                                Duration="0:0:0.3">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                            </ToggleButton.Triggers>
+
+                        </ToggleButton>
+                    </Grid>
+
+                    <ListView x:Name="lvPanel"
+                               Background="Transparent"
+                               BorderBrush="Transparent"
+                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                               SelectionChanged="lvPanel_SelectionChanged">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Width="230" Height="40">
+                                    <Grid Width="50">
+                                        <Image Source="{Binding img, Mode=OneWay}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Grid>
+
+                                    <TextBlock Text="{Binding name, Mode=OneWay}" Margin="10, 0, 0, 0" Style="{StaticResource font_style}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                      <!--
+                        <ListViewItem HorizontalAlignment="Left" x:Name="lvItemPdf"
+                                      Margin="0,0,0,15">
+                            <StackPanel Orientation="Horizontal"
+                                        Width="230"
+                                        x:Name="lv_pdf" MouseDown="lv_pdf_MouseDown">
+                                <Image Source="/Assets/image/pdf.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="PDF文档"
+                                           Margin="25,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+                            </StackPanel>
+
+                            <ListViewItem.ToolTip>
+                                <ToolTip x:Name="tooTipPdf"
+                                         Content="PDF文档"
+                                         Style="{StaticResource tt_style}"/>
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+
+                        <ListViewItem HorizontalAlignment="Left"
+                                      Margin="0,0,0,15">
+                            <StackPanel Orientation="Horizontal"
+                                        Width="230"
+                                        x:Name="lv_setting" MouseDown="lv_setting_MouseDown">
+                                <Image Source="/Assets/image/setting.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="设置"
+                                           Margin="25,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+                            </StackPanel>
+
+                            <ListViewItem.ToolTip>
+                                <ToolTip x:Name="tooTipSetting"
+                                         Content="设置"
+                                         Style="{StaticResource tt_style}"/>
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+                        
+                        -->
+
+                    </ListView>
+                    
+                </StackPanel>
+            </Grid>
+
+            
             
         </Grid>
-        
         
     </Grid>
 </Window>
