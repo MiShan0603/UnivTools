@@ -36,25 +36,6 @@ namespace UnivTools
             InitListView();
         }
 
-        private void toggleBtnMenu_Unchecked(object sender, RoutedEventArgs e)
-        {
-            gridContentAbove.Visibility = Visibility.Collapsed;
-
-            RefreshUI();
-        }
-
-        private void toggleBtnMenu_Checked(object sender, RoutedEventArgs e)
-        {
-            gridContentAbove.Visibility = Visibility.Visible;
-
-            RefreshUI();
-        }
-
-        private void gridContentAbove_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            toggleBtnMenu.IsChecked = false;
-        }
-
         private void lvPanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             gridContent.Children.Clear();
@@ -98,32 +79,9 @@ namespace UnivTools
 
                 lvPanel.Items.Add(lvItemSetting);
             }
+
+            
         }
 
-        private void RefreshUI()
-        {
-            if (toggleBtnMenu.IsChecked == true)
-            {
-                gridContentAbove.Visibility = Visibility.Visible;
-
-                foreach (var item in lvPanel.Items)
-                {
-                    var _item = item as LvItem;
-
-                    (_item.panel as UserControlInterfaces).HideControls(true);
-                }
-            }
-            else
-            {
-                gridContentAbove.Visibility = Visibility.Collapsed;
-
-                foreach (var item in lvPanel.Items)
-                {
-                    var _item = item as LvItem;
-
-                    (_item.panel as UserControlInterfaces).HideControls(false);
-                }
-            }
-        }
     }
 }

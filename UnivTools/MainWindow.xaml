@@ -113,94 +113,19 @@
 
         <Grid x:Name="gridMain">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="65" />
+                <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid x:Name="gridContentAbove" Grid.Column="1" Background="Black" Opacity="0.3" PreviewMouseDown="gridContentAbove_PreviewMouseDown" Visibility="Collapsed" />
+            <Grid x:Name="gridContent" Grid.Column="1" />
 
 
-            <Grid x:Name="gridContent" Grid.Column="1">
 
-            </Grid>
-
-            
-
-            <Grid x:Name="gridNav" Grid.Column="0" Grid.ColumnSpan="2" Width="65" HorizontalAlignment="Left">
+            <Grid x:Name="gridNav" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
                 <Grid x:Name="gridNavBG" Background="#2E333A"  Opacity="0.6" Width="{Binding ElementName=gridNav, Path=ActualWidth, Mode=OneWay}" />
 
-                <StackPanel x:Name="stackPanel">
+                <StackPanel x:Name="stackPanel" Margin="2,5,2,5">
                     
-                    <Grid Height="90">
-                        <TextBlock  Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="70,-20,0,0"
-                                    Text="MENU"
-                                    Foreground="White"
-                                    FontSize="18"
-                                    Background="Transparent"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Style="{StaticResource font_style}">
-                            <TextBlock.Effect>
-                                <DropShadowEffect  BlurRadius="10"
-                                                   ShadowDepth="1"
-                                                   Direction="-90"
-                                                   Color="White"/>
-                            </TextBlock.Effect>
-                        </TextBlock>
-
-                        <ToggleButton x:Name="toggleBtnMenu"
-                                      Grid.Column="0"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Left"
-                                      Margin="18,-20,0,0"
-                                      Height="30"
-                                      Width="30"
-                                      BorderThickness="0"
-                                      Style="{StaticResource tb_style}" Unchecked="toggleBtnMenu_Unchecked" Checked="toggleBtnMenu_Checked">
-
-                            <!--// Toggle button default background image //-->
-
-                            <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Assets/image/menu.png" Stretch="None"/>
-                            </ToggleButton.Background>
-
-                            <!--// Toggle Button - Checked, Unchecked events //-->
-                            <ToggleButton.Triggers>
-                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                                    <BeginStoryboard>
-                                        <Storyboard x:Name="HideStackPanel">
-                                            <DoubleAnimation    
-                                                Storyboard.TargetName="gridNav"
-                                                Storyboard.TargetProperty="Width"
-                                                BeginTime="0:0:0"
-                                                From="230" To="65"
-                                                Duration="0:0:0.2">
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-
-                                <EventTrigger RoutedEvent="ToggleButton.Checked">
-                                    <BeginStoryboard>
-                                        <Storyboard x:Name="ShowStackPanel">
-                                            <DoubleAnimation
-                                                Storyboard.TargetName="gridNav"
-                                                Storyboard.TargetProperty="Width"
-                                                BeginTime="0:0:0"
-                                                From="65" To="230"
-                                                Duration="0:0:0.3">
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-
-                            </ToggleButton.Triggers>
-
-                        </ToggleButton>
-                    </Grid>
-
                     <ListView x:Name="lvPanel"
                                Background="Transparent"
                                BorderBrush="Transparent"
@@ -209,13 +134,15 @@
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Width="230" Height="40">
-                                    <Grid Width="50">
-                                        <Image Source="{Binding img, Mode=OneWay}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    </Grid>
+                                <Grid  Width="60">
+                                    <StackPanel Orientation="Vertical" Height="60">
+                                        <Grid Width="30" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Image Source="{Binding img, Mode=OneWay}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        </Grid>
 
-                                    <TextBlock Text="{Binding name, Mode=OneWay}" Margin="10, 0, 0, 0" Style="{StaticResource font_style}"/>
-                                </StackPanel>
+                                        <TextBlock Text="{Binding name, Mode=OneWay}" HorizontalAlignment="Center" Style="{StaticResource font_style}" FontSize="14"/>
+                                    </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
 

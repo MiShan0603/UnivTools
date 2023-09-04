@@ -17,13 +17,13 @@
         <Grid x:Name="gridToolbar" Grid.Row="0">
             <StackPanel Orientation="Horizontal">
                 
-                <Button Content="打开" Name="btnOpen" VerticalAlignment="Center" Click="btnOpen_Click" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
+                <Button Content="打开" Name="btnOpen" VerticalAlignment="Center" Click="btnOpen_Click" FontSize="20" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
                 
                 <TextBlock Text="|" VerticalAlignment="Center" Foreground="White" FontSize="22" Margin="2"/>
                 
                 <TextBlock Text="Page:" VerticalAlignment="Center" Foreground="White" />
                 <TextBox Text="" x:Name="txtCurPage" VerticalAlignment="Center" Width="30" TextInput="txtCurPage_TextInput" KeyDown="txtCurPage_KeyDown" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
-                <TextBlock Text="/1000" x:Name="txtTotlePages" VerticalAlignment="Center" Width="35" Foreground="White" />
+                <TextBlock Text="" x:Name="txtTotlePages" VerticalAlignment="Center" Width="35" Foreground="White" />
                 
                 <Button Content="&lt;" Name="btnPre" VerticalAlignment="Center" Click="btnPre_Click" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
                 <Button Content="&gt;" Name="btnNext" VerticalAlignment="Center" Click="btnNext_Click" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
@@ -55,14 +55,22 @@
         </Grid>
 
         <Grid x:Name="gridPdf" Grid.Row="1">
-            <Grid>
-                <TextBlock Text="PDF..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Foreground="White"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="32"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0" Grid.RowSpan="2">
+                <TextBlock x:Name="txtPdfBG" Text="PDF..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Foreground="White"/>
+            </Grid>
+
+            <Grid x:Name="gridPdfContent" Grid.Row="0">
+                <WindowsFormsHost x:Name="pdfForm" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Visible" Background="Black"
+                          Width="{Binding Path=ActualWidth, ElementName=gridPdfContent}" Height="{Binding Path=ActualHeight, ElementName=gridPdfContent}"  >
+                    <PDFViewer:PdfViewer x:Name="pdfViewer" ShowToolbar="False"/>
+                </WindowsFormsHost>
             </Grid>
             
-            <WindowsFormsHost x:Name="pdfForm" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Visible" Background="Black"
-                          Width="{Binding Path=ActualWidth, ElementName=gridPdf}" Height="{Binding Path=ActualHeight, ElementName=gridPdf}"  >
-                <PDFViewer:PdfViewer x:Name="pdfViewer" ShowToolbar="False"/>
-            </WindowsFormsHost>
         </Grid>
        
     </Grid>

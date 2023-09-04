@@ -46,6 +46,9 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Assets\UnivTools.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
@@ -87,6 +90,9 @@
     <Compile Include="UI\UserControls\UserControl_ABout.xaml.cs">
       <DependentUpon>UserControl_ABout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\UserControl_Introduce.xaml.cs">
+      <DependentUpon>UserControl_Introduce.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\UserControl_Pdf.xaml.cs">
       <DependentUpon>UserControl_Pdf.xaml</DependentUpon>
     </Compile>
@@ -108,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserControls\UserControl_ABout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UserControls\UserControl_Introduce.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -157,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\image\pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\UnivTools.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

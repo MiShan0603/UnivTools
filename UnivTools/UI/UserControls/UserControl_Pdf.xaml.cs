@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace UnivTools.UI.UserControls
@@ -61,6 +62,7 @@ namespace UnivTools.UI.UserControls
                     {
                         pdfViewer.Document = PdfDocument.Load(dialog.FileName);
                         mPdfPath = dialog.FileName;
+                        txtPdfBG.Text = mPdfPath;
 
                         txtTotlePages.Text = @"/" + pdfViewer.Document.PageCount.ToString();
                     }
@@ -168,7 +170,7 @@ namespace UnivTools.UI.UserControls
         private void btnToImage_Click(object sender, RoutedEventArgs e)
         {
             Pdf2ImageInfo info = new Pdf2ImageInfo();
-            info.CurPage = pdfViewer.Renderer.Page;
+            info.CurPage = pdfViewer.Renderer.Page + 1;
             info.FromPage = 1;
             info.ToPage = pdfViewer.Document.PageCount;
             info.SaveMode = Pdf2ImageSaveMode.Pdf2Image_CurPage;
@@ -197,12 +199,17 @@ namespace UnivTools.UI.UserControls
                     info.ToPage = pdfViewer.Document.PageCount;
                 }
 
+                if (info.CurPage <= 0)
+                {
+                    info.CurPage = 1;
+                }
+
                 if (info.CurPage <= 0 || info.CurPage > pdfViewer.Document.PageCount)
                 {
                     info.CurPage = pdfViewer.Renderer.Page;
                 }
 
-                switch(info.SaveMode) 
+                switch (info.SaveMode) 
                 {
                     case Pdf2ImageSaveMode.Pdf2Image_CurPage:
                         info.FromPage = info.CurPage;
@@ -219,24 +226,26 @@ namespace UnivTools.UI.UserControls
                         break;
                 }
 
+                string imageFormat = ".jpg";
                 for (int i = info.FromPage; i <= info.ToPage; i++)
                 {
-                    System.Drawing.Size size = new System.Drawing.Size();
-                    //pdfSize为list类型，索引从0，而pdf页码从1开始，所以需要-1
-                    size.Width = pdfViewer.Width;
-                    size.Height = pdfViewer.Height;
-                    var stream = new System.IO.FileStream($"{info.ImgDir}-{i}.jpg", System.IO.FileMode.Create);
-                    var image = pdfViewer.Renderer.Render(i - 1, size.Width, size.Height, 300, 300, PdfiumViewer.PdfRenderFlags.Annotations);
-                    image.Save(stream, imageFormat);
-                    stream.Close();
-                    image.Dispose();
-                    stream.Dispose();
-                    System.Diagnostics.Process.Start(imagePath);
+                    int dpi = 300;
+                    using (var image = pdfViewer.Document.Render(i, dpi, dpi, PdfRenderFlags.CorrectFromDpi))
+                    {
+                        var encoder = ImageCodecInfo.GetImageEncoders()
+                            .First(c => c.FormatID == ImageFormat.Jpeg.Guid);
+                        var encParams = new EncoderParameters(1);
+                        encParams.Param[0] = new EncoderParameter(
+                            System.Drawing.Imaging.Encoder.Quality, 100L);
+
+                        string imgFile = $"{info.ImgDir}{fi.Name}-{i}{imageFormat}";
+                        image.Save(imgFile, encoder, encParams);
+                    }
                 }
             }
         }
 
-        #endregion ToolBar
+#endregion ToolBar
 
 
         public void HideControls(bool hide)

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UnivTools.UI"
         mc:Ignorable="d"
-        Title="PDF2Image" Height="180" Width="260" Loaded="Window_Loaded"
+        Title="PDF2Image" Height="200" Width="280" Loaded="Window_Loaded"
         ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" >
     <Grid Background="Black">
         <Grid.RowDefinitions>
@@ -35,7 +35,7 @@
 
                 <StackPanel Orientation="Horizontal" Height="30">
                     <TextBox Text="PDF目录" x:Name="txtImageDir" IsReadOnly="True" Foreground="White" Background="Transparent" VerticalAlignment="Center" Width="230"/>
-                    <Button Content="..." Background="Transparent" BorderBrush="Transparent" Foreground="White" VerticalAlignment="Center" x:Name="btnImageDir" Click="btnImageDir_Click" />
+                    <Button Content="..." Background="Transparent" BorderBrush="Transparent" FontSize="20" Foreground="White" VerticalAlignment="Center" x:Name="btnImageDir" Click="btnImageDir_Click" />
                 </StackPanel>
             </StackPanel>
 

@@ -79,6 +79,25 @@ namespace UnivTools.UI
             txtPagesFrom.Text = mPdf2ImageInfo.FromPage.ToString(); 
             txtPagesTo.Text = mPdf2ImageInfo.ToPage.ToString();
             txtImageDir.Text = mPdf2ImageInfo.ImgDir;
+
+            switch (mPdf2ImageInfo.SaveMode) 
+            {
+                case Pdf2ImageSaveMode.Pdf2Image_CurPage:
+                    btnSelectCurPage.IsChecked = true;
+                    btnSelectPages.IsChecked = false;
+                    btnSelectAll.IsChecked = false;
+                    break;
+                case Pdf2ImageSaveMode.Pdf2Image_Pages:
+                    btnSelectCurPage.IsChecked = false;
+                    btnSelectPages.IsChecked = true;
+                    btnSelectAll.IsChecked = false;
+                    break;
+                case Pdf2ImageSaveMode.Pdf2Image_AllPages:
+                    btnSelectCurPage.IsChecked = false;
+                    btnSelectPages.IsChecked = false;
+                    btnSelectAll.IsChecked = true;
+                    break;
+            }
         }
 
         public void SetPdf2ImageInfo(Pdf2ImageInfo info)
@@ -91,6 +110,25 @@ namespace UnivTools.UI
                 txtPagesFrom.Text = mPdf2ImageInfo.FromPage.ToString();
                 txtPagesTo.Text = mPdf2ImageInfo.ToPage.ToString();
                 txtImageDir.Text = mPdf2ImageInfo.ImgDir;
+
+                switch (mPdf2ImageInfo.SaveMode)
+                {
+                    case Pdf2ImageSaveMode.Pdf2Image_CurPage:
+                        btnSelectCurPage.IsChecked = true;
+                        btnSelectPages.IsChecked = false;
+                        btnSelectAll.IsChecked = false;
+                        break;
+                    case Pdf2ImageSaveMode.Pdf2Image_Pages:
+                        btnSelectCurPage.IsChecked = false;
+                        btnSelectPages.IsChecked = true;
+                        btnSelectAll.IsChecked = false;
+                        break;
+                    case Pdf2ImageSaveMode.Pdf2Image_AllPages:
+                        btnSelectCurPage.IsChecked = false;
+                        btnSelectPages.IsChecked = false;
+                        btnSelectAll.IsChecked = true;
+                        break;
+                }
             }
             catch (Exception ex)
             {
