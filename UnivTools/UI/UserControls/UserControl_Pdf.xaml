@@ -22,7 +22,7 @@
                 <TextBlock Text="|" VerticalAlignment="Center" Foreground="White" FontSize="22" Margin="2"/>
                 
                 <TextBlock Text="Page:" VerticalAlignment="Center" Foreground="White" />
-                <TextBox Text="" x:Name="txtCurPage" VerticalAlignment="Center" Width="30" TextInput="txtCurPage_TextInput" KeyDown="txtCurPage_KeyDown" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
+                <TextBox Text="1" x:Name="txtCurPage" VerticalAlignment="Center" Width="30" TextInput="txtCurPage_TextInput" KeyDown="txtCurPage_KeyDown" Foreground="White" Background="Transparent" BorderBrush="Transparent" TextAlignment="Right" />
                 <TextBlock Text="" x:Name="txtTotlePages" VerticalAlignment="Center" Width="35" Foreground="White" />
                 
                 <Button Content="&lt;" Name="btnPre" VerticalAlignment="Center" Click="btnPre_Click" Foreground="White" Background="Transparent" BorderBrush="Transparent" />
