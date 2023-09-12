@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace UnivTools.UI.UserControls
 {
@@ -46,6 +47,60 @@ namespace UnivTools.UI.UserControls
 
         }
 
+        private void UserControl_DragEnter(object sender, System.Windows.DragEventArgs e)
+        {
+            //if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop))
+            //{
+            //    e.Effects = System.Windows.DragDropEffects.Link;
+            //    System.Windows.MessageBox.Show(((System.Array)e.Data.GetData(System.Windows.DataFormats.FileDrop)).GetValue(0).ToString());
+            //}
+            //else
+            //{
+            //    e.Effects = System.Windows.DragDropEffects.None;
+            //}
+        }
+
+        private void UserControl_DragOver(object sender, System.Windows.DragEventArgs e)
+        {
+            bool dropEnabled = true;
+            if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop, true))
+            {
+                string[] filenames = e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[];
+
+                foreach (string filename in filenames)
+                {
+                    if (System.IO.Path.GetExtension(filename).ToUpperInvariant() != ".PDF")
+                    {
+                        dropEnabled = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                dropEnabled = false;
+            }
+
+            if (!dropEnabled)
+            {
+                e.Effects = System.Windows.DragDropEffects.None;
+                e.Handled = true;
+            }
+        }
+
+        private void UserControl_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+            string[] droppedFilenames = e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[];
+
+            // System.Windows.MessageBox.Show(droppedFilenames.ToString());
+            if (droppedFilenames.Count() > 0)
+            {
+                OpenPdf(droppedFilenames[0]);
+            }
+        }
+
+        
+
 
         #region ToolBar
 
@@ -58,19 +113,8 @@ namespace UnivTools.UI.UserControls
 
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    try
-                    {
-                        pdfViewer.Document = PdfDocument.Load(dialog.FileName);
-                        mPdfPath = dialog.FileName;
-                        txtPdfBG.Text = mPdfPath;
-
-                        txtTotlePages.Text = @"/" + pdfViewer.Document.PageCount.ToString();
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Windows.Forms.MessageBox.Show(ex.Message, "ERROR", 
-                            System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                    }
+                    OpenPdf(dialog.FileName);
+                    
                 }
             }
         }
@@ -284,8 +328,25 @@ namespace UnivTools.UI.UserControls
         }
 
 
+
+
         #endregion PDF Event
 
-        
+
+        private void OpenPdf(string pdfPath)
+        {
+            try
+            {
+                pdfViewer.Document = PdfDocument.Load(pdfPath);
+                mPdfPath = pdfPath;
+                txtPdfBG.Text = mPdfPath;
+                txtTotlePages.Text = @"/" + pdfViewer.Document.PageCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message, "ERROR",
+                    System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
+        }
     }
 }

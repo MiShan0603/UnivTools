@@ -72,6 +72,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Win32, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Win32.1.1.6\lib\net40\Win32.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -90,6 +93,9 @@
     <Compile Include="UI\UserControls\UserControl_ABout.xaml.cs">
       <DependentUpon>UserControl_ABout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\UserControl_Clipboard.xaml.cs">
+      <DependentUpon>UserControl_Clipboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\UserControl_Introduce.xaml.cs">
       <DependentUpon>UserControl_Introduce.xaml</DependentUpon>
     </Compile>
@@ -97,6 +103,7 @@
       <DependentUpon>UserControl_Pdf.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
+    <Compile Include="Wrapper\Win32.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -114,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserControls\UserControl_ABout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UserControls\UserControl_Clipboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,6 +181,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\UnivTools.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\image\clipboard.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

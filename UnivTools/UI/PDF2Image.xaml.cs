@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -65,6 +66,11 @@ namespace UnivTools.UI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            var hWnd = new WindowInteropHelper(this).Handle;
+            var style = Win32.User32.GetWindowLong(hWnd, Win32.User32.GWL_EXSTYLE);
+            Win32.User32.SetWindowLong(hWnd, Win32.User32.GWL_EXSTYLE, style | UnivTools.Wrapper.Win32.WS_EX_NOACTIVATE);
+            Win32.User32.SetWindowPos(hWnd, UnivTools.Wrapper.Win32.HWND_TOPMOST, 0, 0, 0, 0, Win32.User32.SWP_NOSIZE | Win32.User32.SWP_NOMOVE | Win32.User32.SWP_NOACTIVATE);
+
             if (mPdf2ImageInfo == null)
             {
                 mPdf2ImageInfo = new Pdf2ImageInfo();

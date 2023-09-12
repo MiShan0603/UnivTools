@@ -9,7 +9,7 @@
         xmlns:PDFViewer="clr-namespace:PdfiumViewer;assembly=PdfiumViewer"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" Loaded="Window_Loaded"
+        Title="MainWindow" Height="720" Width="1280" Loaded="Window_Loaded" Closing="Window_Closing"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -121,10 +121,10 @@
 
 
 
-            <Grid x:Name="gridNav" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
-                <Grid x:Name="gridNavBG" Background="#2E333A"  Opacity="0.6" Width="{Binding ElementName=gridNav, Path=ActualWidth, Mode=OneWay}" />
+            <Grid x:Name="gridNav" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="80">
+                <Grid x:Name="gridNavBG" Background="#2E333A"  Opacity="0.5" Width="{Binding ElementName=gridNav, Path=ActualWidth, Mode=OneWay}" />
 
-                <StackPanel x:Name="stackPanel" Margin="2,5,2,5">
+                <StackPanel x:Name="stackPanel">
                     
                     <ListView x:Name="lvPanel"
                                Background="Transparent"
@@ -134,7 +134,7 @@
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid  Width="60">
+                                <Grid Width="60">
                                     <StackPanel Orientation="Vertical" Height="60">
                                         <Grid Width="30" VerticalAlignment="Center" HorizontalAlignment="Center">
                                             <Image Source="{Binding img, Mode=OneWay}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -145,51 +145,6 @@
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-
-                      <!--
-                        <ListViewItem HorizontalAlignment="Left" x:Name="lvItemPdf"
-                                      Margin="0,0,0,15">
-                            <StackPanel Orientation="Horizontal"
-                                        Width="230"
-                                        x:Name="lv_pdf" MouseDown="lv_pdf_MouseDown">
-                                <Image Source="/Assets/image/pdf.png"
-                                       Stretch="None"
-                                       Margin="12,0,0,0"/>
-
-                                <TextBlock Text="PDF文档"
-                                           Margin="25,0,0,0"
-                                           Style="{StaticResource font_style}"/>
-                            </StackPanel>
-
-                            <ListViewItem.ToolTip>
-                                <ToolTip x:Name="tooTipPdf"
-                                         Content="PDF文档"
-                                         Style="{StaticResource tt_style}"/>
-                            </ListViewItem.ToolTip>
-                        </ListViewItem>
-
-                        <ListViewItem HorizontalAlignment="Left"
-                                      Margin="0,0,0,15">
-                            <StackPanel Orientation="Horizontal"
-                                        Width="230"
-                                        x:Name="lv_setting" MouseDown="lv_setting_MouseDown">
-                                <Image Source="/Assets/image/setting.png"
-                                       Stretch="None"
-                                       Margin="12,0,0,0"/>
-
-                                <TextBlock Text="设置"
-                                           Margin="25,0,0,0"
-                                           Style="{StaticResource font_style}"/>
-                            </StackPanel>
-
-                            <ListViewItem.ToolTip>
-                                <ToolTip x:Name="tooTipSetting"
-                                         Content="设置"
-                                         Style="{StaticResource tt_style}"/>
-                            </ListViewItem.ToolTip>
-                        </ListViewItem>
-                        
-                        -->
 
                     </ListView>
                     
